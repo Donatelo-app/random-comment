@@ -84,27 +84,27 @@ class Service:
 
 
 	# WORK WITH DATABASE
-	def get_group(group_id):
+	def get_group(self, group_id):
 		group = self.mongo.find_one({"group_id":group_id})
 		if group is None:
 			group = {}
 
 		return group
 
-	def set_activation(group_id, activate):
-		group = get_group(group_id)
+	def set_activation(self, group_id, activate):
+		group = self.get_group(group_id)
 
 		if not group:
 			self.mongo.insert({"group_id":group_id, "activate":activate, "fields":{}})
 		else:
 			group["activate"] = activate
-			mongo.update_one({"group_id":group_id}, {"$set":group})
+			self.mongo.update_one({"group_id":group_id}, {"$set":group})
 
-	def set_fields(group_id, fields):
-		group = get_group(group_id)
+	def set_fields(self, group_id, fields):
+		group = self.get_group(group_id)
 
 		if not group:
 			self.mongo.insert({"group_id":group_id, "activate":True, "fields":fields})
 		else:
 			group["fields"] = fields
-			mongo.update_one({"group_id":group_id}, {"$set":group})
+			self.mongo.update_one({"group_id":group_id}, {"$set":group})
