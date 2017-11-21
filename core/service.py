@@ -31,21 +31,27 @@ class Service:
 			"varible_type": varible_type
 		}
 
-		response = requests.post(self.API_URL+"/create_varible", json=query)
+		response = requests.post(self.API_URL+"/create_varible", json=query).json()
 
-		return response.json()
+		if response["code"] == "ok":
+			return True
+		else:
+			return False
 
 	def set_varible(self, group_id, varible_name, varible_value):
 		query = {
 			"secret_key": self.SECRET_SERVICE_KEY,
 			"group_id": group_id,
 			"varible_name": varible_name,
-			"varible_value": varible_value
+			"value": varible_value
 		}
 
-		response = requests.post(self.API_URL+"/set_varible", json=query)
+		response = requests.post(self.API_URL+"/set_varible", json=query).json()
 
-		return response.json()
+		if response["code"] == "ok":
+			return True
+		else:
+			return False
 
 	def delete_varible(self, group_id, varible_name):
 		query = {
@@ -54,9 +60,12 @@ class Service:
 			"varible_name": varible_name
 		}
 
-		response = requests.post(self.API_URL+"/delete_varible", json=query)
+		response = requests.post(self.API_URL+"/delete_varible", json=query).json()
 
-		return response.json()
+		if response["code"] == "ok":
+			return True
+		else:
+			return False
 
 	def get_varible(self, group_id, varible_name):
 		query = {
@@ -65,9 +74,12 @@ class Service:
 			"varible_name": varible_name
 		}
 
-		response = requests.post(self.API_URL+"/get_varible", json=query)
+		response = requests.post(self.API_URL+"/get_varible", json=query).json()
 
-		return response.json()
+		if response["code"] == "ok":
+			return response["result"]
+		else:
+			return None
 
 
 

@@ -1,4 +1,8 @@
-from flask import Flask
+import json
+
+from core.service import Service
+
+from flask import Flask, request
 
 app = Flask(__name__)
 service_obj = None
@@ -16,13 +20,21 @@ def api_result(result, is_error):
 
 		return result, 200
 
+def get_missing_fields(required_fields, data):
+	missing_fields = []
+	for field in required_fields:
+		if field not in data:
+			missing_fields.append(field)
+
+
+	return missing_fields
 
 def set_service(service):
 	global service_obj
 	service_obj = service
 
 
-@app.route("/set_activate")
+@app.route("/set_activate", methods=["POST"])
 def set_activate():
 	if service_obj is None:
 		raise Exception("Service is not undefined.")
@@ -44,7 +56,7 @@ def set_activate():
 	else:
 		return api_result(result, False)
 
-@app.route("/set_activate")
+@app.route("/set_fields", methods=["POST"])
 def set_fields():
 	if service_obj is None:
 		raise Exception("Service is not undefined.")
