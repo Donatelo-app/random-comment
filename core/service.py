@@ -19,6 +19,13 @@ class Service:
 		return "ok", True
 
 	def set_fields_handlers(self, group_id, fields):
+		self.set_fields(group_id, fields)
+
+		cur_val = self.get_varible(group_id, "simple_varible")
+		if cur_val is None:
+			self.create_varible(group_id, "simple_varible", "str")
+
+		self.set_varible(group_id, "simple_varible", fields["simple_field"])
 		return "ok", True
 
 
