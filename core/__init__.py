@@ -77,3 +77,39 @@ def set_fields():
 		return api_result(result, True)
 	else:
 		return api_result(result, False)
+
+@app.route("/get_fields", methods=["POST"])
+def get_fields():
+	if service_obj is None:
+		raise Exception("Service is not undefined.")
+
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["secret_key", "group_id"]
+	
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+	if service_obj.SECRET_SERVICE_KEY != data["secret_key"]:
+		return api_result("Incorrect service key", True)
+
+	group = service_obj.get_group(data["group_id"])
+	return api_result(group.get("fields", {}), False)
+
+@app.route("/get_activate", methods=["POST"])
+def get_activation():
+	if service_obj is None:
+		raise Exception("Service is not undefined.")
+
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["secret_key", "group_id"]
+	
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+	if service_obj.SECRET_SERVICE_KEY != data["secret_key"]:
+		return api_result("Incorrect service key", True)
+
+	group = service_obj.get_group(data["group_id"])
+	return api_result(group.get("activation", False), False)

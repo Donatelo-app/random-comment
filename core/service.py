@@ -15,6 +15,7 @@ class Service:
 
 	# HANDLERS
 	def set_activate_handler(self, group_id, activation):
+		self.set_activation(group_id, activation)
 		return "ok", True
 
 	def set_fields_handlers(self, group_id, fields):
@@ -95,7 +96,7 @@ class Service:
 		group = self.get_group(group_id)
 
 		if not group:
-			self.mongo.insert({"group_id":group_id, "activate":activate, "fields":{}})
+			self.mongo.insert({"group_id":group_id, "activation":activate, "fields":{}})
 		else:
 			group["activate"] = activate
 			self.mongo.update_one({"group_id":group_id}, {"$set":group})
@@ -104,7 +105,7 @@ class Service:
 		group = self.get_group(group_id)
 
 		if not group:
-			self.mongo.insert({"group_id":group_id, "activate":True, "fields":fields})
+			self.mongo.insert({"group_id":group_id, "activation":True, "fields":fields})
 		else:
 			group["fields"] = fields
 			self.mongo.update_one({"group_id":group_id}, {"$set":group})
