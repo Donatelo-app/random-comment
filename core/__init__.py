@@ -1,3 +1,4 @@
+import threading
 import json
 
 from core.service import Service
@@ -49,12 +50,11 @@ def set_activate():
 	if service_obj.SECRET_SERVICE_KEY != data["secret_key"]:
 		return api_result("Incorrect service key", True)
 
-	result, code = service_obj.set_activate_handler(data["group_id"], data["activation"])
+	thread = threading.Thread(target=service_obj.set_activate_handler, args=(data["group_id"], data["activation"]))
+	thread.daemon = True
+	thread.start()
 
-	if not code:
-		return api_result(result, True)
-	else:
-		return api_result(result, False)
+	return api_result("ok", False)
 
 @app.route("/set_fields", methods=["POST"])
 def set_fields():
@@ -71,12 +71,11 @@ def set_fields():
 	if service_obj.SECRET_SERVICE_KEY != data["secret_key"]:
 		return api_result("Incorrect service key", True)
 
-	result, code = service_obj.set_fields_handler(data["group_id"], data["fields"])
+	thread = threading.Thread(target=service_obj.set_fields_handlers, args=(data["group_id"], data["fields"]))
+	thread.daemon = True
+	thread.start()
 
-	if not code:
-		return api_result(result, True)
-	else:
-		return api_result(result, False)
+	return api_result("ok", False)
 
 @app.route("/get_fields", methods=["POST"])
 def get_fields():
