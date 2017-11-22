@@ -71,7 +71,7 @@ def set_fields():
 	if service_obj.SECRET_SERVICE_KEY != data["secret_key"]:
 		return api_result("Incorrect service key", True)
 
-	thread = threading.Thread(target=service_obj.set_fields_handlers, args=(data["group_id"], data["fields"]))
+	thread = threading.Thread(target=service_obj.set_fields_handler, args=(data["group_id"], data["fields"]))
 	thread.daemon = True
 	thread.start()
 
