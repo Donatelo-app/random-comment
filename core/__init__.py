@@ -75,6 +75,7 @@ def set_fields():
 	thread.daemon = True
 	thread.start()
 
+	print("return")
 	return api_result("ok", False)
 
 @app.route("/get_fields", methods=["POST"])
