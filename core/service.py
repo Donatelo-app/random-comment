@@ -18,7 +18,7 @@ class Service:
 		self.set_activation(group_id, activation)
 		return "ok", True
 
-	def set_fields_handlers(self, group_id, fields):
+	def set_fields_handler(self, group_id, fields):
 		self.set_fields(group_id, fields)
 
 		cur_val = self.get_varible(group_id, "simple_varible")

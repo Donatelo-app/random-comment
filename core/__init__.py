@@ -71,7 +71,7 @@ def set_fields():
 	if service_obj.SECRET_SERVICE_KEY != data["secret_key"]:
 		return api_result("Incorrect service key", True)
 
-	result, code = service_obj.set_fields_handlers(data["group_id"], data["fields"])
+	result, code = service_obj.set_fields_handler(data["group_id"], data["fields"])
 
 	if not code:
 		return api_result(result, True)
