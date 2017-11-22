@@ -25,6 +25,7 @@ class Service:
 		if cur_val is None:
 			self.create_varible(group_id, "simple_varible", "str")
 
+		print(group_id, "simple_varible", fields["simple_field"])
 		self.set_varible(group_id, "simple_varible", fields["simple_field"])
 		return "ok", True
 
