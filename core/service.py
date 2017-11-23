@@ -23,8 +23,7 @@ class Service:
 
 		cur_val = self.get_varible(group_id, "secret_key")
 		if cur_val is None:
-			self.create_varible(group_id, "last_sub_name", "str")
-			self.create_varible(group_id, "last_sub_img", "str")
+			self.create_varible(group_id, "random_comment", "str")
 
 		return "ok", True
 	

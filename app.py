@@ -3,11 +3,12 @@ from core import api_result
 
 import requests
 import json
+from random import randint
 
 from flask import request
 
 
-service = core.Service("last_sub")
+service = core.Service("random_comment")
 app = core.app
 core.set_service(service)
 
@@ -23,16 +24,16 @@ def vk_callback(secret_key):
 	if data["type"] == "confirmation":
 		return str(group["fields"]["secret_code"]), 200
 
-	if data["type"] == "group_join":
-		user_id = data["object"]["user_id"]
+	if data["type"] == "wall_reply_new":
+		text = data["object"]["text"]
+		if not data["hashtag"] in text: 
+			return "ok", 200
 
-		user_info = requests.get("https://api.vk.com/method/users.get?user_ids=%s&fields=photo_max_orig&v=5.65" % user_id).json()["response"][0]
+		probality = abs(float(data["probality"]))
+		if probality != 1 and randint(0, 1//(1-probality)) != 0:
+			return "ok", 200
 
-		user_name = user_info["first_name"] + " " + user_info["last_name"]
-		user_img = user_info["photo_max_orig"]
-
-		service.set_varible(group["group_id"], "last_sub_name", user_name)
-		service.set_varible(group["group_id"], "last_sub_img", user_img)
+		service.set_varible(group["group_id"], "random_comment", text)
 		service.update_image(group["group_id"])
 
 	return "ok", 200
