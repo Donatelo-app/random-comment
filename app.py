@@ -30,7 +30,7 @@ def vk_callback(secret_key):
 			return "ok", 200
 
 		probality = abs(float(data["probality"]))
-		if probality != 1 and randint(0, 1//(probality)) != 0:
+		if probality == 0 and randint(0, 1//(probality)) != 0:
 			return "ok", 200
 
 		service.set_varible(group["group_id"], "random_comment", text)
