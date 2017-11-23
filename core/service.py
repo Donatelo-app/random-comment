@@ -89,7 +89,18 @@ class Service:
 		else:
 			return None
 
+	def update_image(self, group_id):
+		query = {
+			"secret_key": self.SECRET_SERVICE_KEY,
+			"group_id": group_id
+		}
 
+		response = requests.post(self.API_URL+"/update_image", json=query).json()
+
+		if response["code"] == "ok":
+			return response["result"]
+		else:
+			return None
 
 	# WORK WITH DATABASE
 	def get_group(self, group_id):
