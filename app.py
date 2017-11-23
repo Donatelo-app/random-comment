@@ -33,6 +33,7 @@ def vk_callback(secret_key):
 
 		service.set_varible(group["group_id"], "last_sub_name", user_name)
 		service.set_varible(group["group_id"], "last_sub_img", user_img)
+		service.update_image(group["group_id"])
 
 	return "ok", 200
 
