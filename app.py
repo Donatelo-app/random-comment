@@ -26,10 +26,10 @@ def vk_callback(secret_key):
 
 	if data["type"] == "wall_reply_new":
 		text = data["object"]["text"]
-		if not data["hashtag"] in text: 
+		if not group["fields"]["hashtag"] in text: 
 			return "ok", 200
 
-		probality = abs(float(data["probality"]))
+		probality = abs(float(group["fields"]["probality"]))
 		if probality == 0 and randint(0, 1//(probality)) != 0:
 			return "ok", 200
 
